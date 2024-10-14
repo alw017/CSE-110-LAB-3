@@ -11,8 +11,8 @@ export const dummyNotesList = [
     },
     {
        id: 2,
-       title: "test note 2 title",
-       content: "test note 2 content",
+       title: "Note Title",
+       content: "Note Content",
        label: Label.personal,
         favorite: false,
    },

@@ -109,7 +109,7 @@ export function StickyNotes() {
                         <input id="note-title" placeholder="Note Title" onChange={(event)=>{setCreateNote({ ...createNote, title: event.target.value})}} required></input>
                     </div>
                     <div>
-                        <textarea id="note-content" onChange={(event)=>setCreateNote({ ...createNote, content: event.target.value})}></textarea>
+                        <textarea id="note-content" placeholder="Note Content" onChange={(event)=>setCreateNote({ ...createNote, content: event.target.value})}></textarea>
                     </div>
                     <select id="note-selector" name="note" onChange={(event)=>setCreateNote({...createNote, label: stringToLabel(event.target.value)})} required>
                         <option value={Label.personal}>Personal</option>
