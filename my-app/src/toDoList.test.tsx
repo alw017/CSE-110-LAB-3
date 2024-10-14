@@ -29,4 +29,14 @@ describe("Check Items", () => {
         }
         
     });
+
+    test("Number of checked items", async () => {
+        render(<ToDoList />);
+        
+        
+        const numCheckedItems = 0;
+        
+        const itemsBought = screen.getByText(`Items bought: ${numCheckedItems}`);
+        expect(itemsBought).toBeInTheDocument();
+    });
 });
