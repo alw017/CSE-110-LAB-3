@@ -13,7 +13,7 @@ export const dummyNotesList = [
        id: 2,
        title: "Note Title",
        content: "Note Content",
-       label: Label.personal,
+       label: Label.study,
         favorite: false,
    },
    {
@@ -41,12 +41,12 @@ export const dummyNotesList = [
        id: 6,
        title: "test note 6 title",
        content: "test note 6 content",
-       label: Label.personal,
+       label: Label.work,
         favorite: false,
    },
 ]
 
 export const dummyGroceryList = [
     {name: "Apples", isPurchased: false},
-    {name: "Bananas", isPurchased:false}
+    {name: "Bananas", isPurchased: false}
 ]

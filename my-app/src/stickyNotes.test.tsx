@@ -1,5 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { StickyNotes } from "./stickyNotes";
+import { dummyNotesList } from "./constants";
+import userEvent from "@testing-library/user-event";
+import { get } from "http";
 
 describe("Create StickyNote", () => {
  test("renders create note form", () => {
@@ -31,3 +34,45 @@ describe("Create StickyNote", () => {
    expect(newNoteContent).toBeInTheDocument();
  });
 });
+
+describe("Read Sticky Note", () => {
+    test("renders a note", () => {
+        render(<StickyNotes />);
+        
+        for (let i = 0; i < dummyNotesList.length; i++) {
+            const noteTitle = screen.getByText(dummyNotesList[i].title);
+            const noteContent = screen.getByText(dummyNotesList[i].content);
+            expect(noteTitle).toBeInTheDocument();
+            expect(noteContent).toBeInTheDocument();
+        }
+        });
+    
+});
+
+describe("Update Sticky Note", () => {
+    test( "Update note ", () => {
+        render(<StickyNotes />);
+        const noteTitle = screen.getByText("CSE 110 Lecture 1");
+        const noteContent = screen.getByText("dummy content 1");
+        const noteLabel = screen.getByText("other");
+        
+        fireEvent.input(noteTitle, { target: { textContent: "Unit Title" } });
+        fireEvent.input(noteContent, { target: { textContent: "Unit Content" } });
+        fireEvent.input(noteLabel, { target: { textContent: "personal" } });
+
+        expect(screen.getByText("Unit Title")).toBeInTheDocument();
+        expect(screen.getByText("Unit Content")).toBeInTheDocument();
+        expect(screen.getByText("personal")).toBeInTheDocument();
+    })
+});
+
+/*describe("Delete Sticky Note", () => {
+    test("Delete note", () => {
+        render(<StickyNotes />);
+
+        fireEvent.click(screen.getAllByTestId("testbutton")[0]);
+        expect(screen.queryByText("CSE 110 Lecture 1")).toBeNull();
+    })
+});
+  */      
+        
