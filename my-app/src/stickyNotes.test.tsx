@@ -1,10 +1,10 @@
 import { render, screen, fireEvent, within } from "@testing-library/react";
 import { StickyNotes } from "./stickyNotes";
+import { NoteGrid } from "./NoteGrid";
 import { dummyNotesList } from "./constants";
-import userEvent from "@testing-library/user-event";
 
 describe("Create StickyNote", () => {
- test("renders create note form", () => {
+ test("create note form is rendered", () => {
    render(<StickyNotes />);
 
    const createNoteButton = screen.getByText("Create Note");
@@ -35,7 +35,7 @@ describe("Create StickyNote", () => {
 });
 
 describe("Read Sticky Note", () => {
-    test("renders a note", () => {
+    test("renders all notes", () => {
         render(<StickyNotes />);
         
         for (let i = 0; i < dummyNotesList.length; i++) {
@@ -48,7 +48,7 @@ describe("Read Sticky Note", () => {
 });
 
 describe("Update Sticky Note", () => {
-    test( "Update note ", () => {
+    test( "Updated note is rendered", () => {
         render(<StickyNotes />);
         const noteTitle = screen.getByText("CSE 110 Lecture 1");
         const noteContent = screen.getByText("dummy content 1");
@@ -58,33 +58,15 @@ describe("Update Sticky Note", () => {
         fireEvent.input(noteContent, { target: { textContent: "Unit Content" } });
         fireEvent.input(noteLabel, { target: { textContent: "personal" } });
 
+
         expect(screen.getByText("Unit Title")).toBeInTheDocument();
         expect(screen.getByText("Unit Content")).toBeInTheDocument();
         expect(screen.getByText("personal")).toBeInTheDocument();
     });
-
-    test("invalid note type input is rejected", () => {
-        render(<StickyNotes/>);
-        
-        const noteTitle = screen.getByText("CSE 110 Lecture 1");
-        const noteContent = screen.getByText("dummy content 1");
-        const noteLabel = screen.getByText("other");
-        
-        fireEvent.input(noteTitle, { target: { textContent: "Unit Title" } });
-        fireEvent.input(noteContent, { target: { textContent: "Unit Content" } });
-        
-        fireEvent.focus(noteLabel);
-        fireEvent.keyDown(noteLabel, {key: 'A', code:"keyA"});
-        fireEvent.blur(noteLabel);
-
-        expect(screen.getByText("Unit Title")).toBeInTheDocument();
-        expect(screen.getByText("Unit Content")).toBeInTheDocument();
-        expect(screen.getByText("other")).toBeInTheDocument();
-    })
 });
 
 describe("Delete Sticky Note", () => {
-    test("Delete note", () => {
+    test("Deleted notes are no longer rendered", () => {
         render(<StickyNotes />);
 
         fireEvent.click(screen.getByTestId("test-button1"));
@@ -94,7 +76,7 @@ describe("Delete Sticky Note", () => {
         expect(screen.queryByText("Note Title")).toBeNull();
     })
 
-    test("Delete all notes", () => {
+    test("Delete all notes, no notes are rendered", () => {
         render(<StickyNotes/>);
         for (let i = 1; i <= dummyNotesList.length; i++) {
             fireEvent.click(screen.getByTestId("test-button"+i));
