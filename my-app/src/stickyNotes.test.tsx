@@ -1,8 +1,7 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, within } from "@testing-library/react";
 import { StickyNotes } from "./stickyNotes";
 import { dummyNotesList } from "./constants";
 import userEvent from "@testing-library/user-event";
-import { get } from "http";
 
 describe("Create StickyNote", () => {
  test("renders create note form", () => {
@@ -45,8 +44,7 @@ describe("Read Sticky Note", () => {
             expect(noteTitle).toBeInTheDocument();
             expect(noteContent).toBeInTheDocument();
         }
-        });
-    
+    });
 });
 
 describe("Update Sticky Note", () => {
@@ -63,16 +61,58 @@ describe("Update Sticky Note", () => {
         expect(screen.getByText("Unit Title")).toBeInTheDocument();
         expect(screen.getByText("Unit Content")).toBeInTheDocument();
         expect(screen.getByText("personal")).toBeInTheDocument();
+    });
+
+    test("invalid note type input is rejected", () => {
+        render(<StickyNotes/>);
+        
+        const noteTitle = screen.getByText("CSE 110 Lecture 1");
+        const noteContent = screen.getByText("dummy content 1");
+        const noteLabel = screen.getByText("other");
+        
+        fireEvent.input(noteTitle, { target: { textContent: "Unit Title" } });
+        fireEvent.input(noteContent, { target: { textContent: "Unit Content" } });
+        
+        fireEvent.focus(noteLabel);
+        fireEvent.keyDown(noteLabel, {key: 'A', code:"keyA"});
+        fireEvent.blur(noteLabel);
+
+        expect(screen.getByText("Unit Title")).toBeInTheDocument();
+        expect(screen.getByText("Unit Content")).toBeInTheDocument();
+        expect(screen.getByText("other")).toBeInTheDocument();
     })
 });
 
-/*describe("Delete Sticky Note", () => {
+describe("Delete Sticky Note", () => {
     test("Delete note", () => {
         render(<StickyNotes />);
 
-        fireEvent.click(screen.getAllByTestId("testbutton")[0]);
+        fireEvent.click(screen.getByTestId("test-button1"));
         expect(screen.queryByText("CSE 110 Lecture 1")).toBeNull();
+
+        fireEvent.click(screen.getByTestId("test-button2"));
+        expect(screen.queryByText("Note Title")).toBeNull();
+    })
+
+    test("Delete all notes", () => {
+        render(<StickyNotes/>);
+        for (let i = 1; i <= dummyNotesList.length; i++) {
+            fireEvent.click(screen.getByTestId("test-button"+i));
+        }
+
+        const notesContainer = screen.getByTestId("notes-container");
+        expect(notesContainer.children.length).toBe(0);
+    })
+
+    test("Deleting favorited note updates the favorites list", () => {
+        render(<StickyNotes/>);
+        const favoriteButton = screen.getByTestId("test-fav1");
+        fireEvent.click(favoriteButton);
+        const favoriteList = screen.getByTestId("favorite-list");
+        expect(within(favoriteList).getByText("CSE 110 Lecture 1")).toBeInTheDocument();
+
+        fireEvent.click(screen.getByTestId("test-button1"));
+        expect(within(favoriteList).queryByText("CSE 110 Lecture 1")).toBeNull();
     })
 });
-  */      
         

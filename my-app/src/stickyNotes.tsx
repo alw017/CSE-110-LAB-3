@@ -127,7 +127,7 @@ export function StickyNotes() {
                 <NoteGrid deleteNote={deleteNoteHandler} handleEditField={handleEditField} handleNoteFavorites={handleNoteFavorites} inputNotes={notes}/>
             </div>
         </div>
-        <div style={{color:currentTheme.text}}id="favoriteNotes"><h2>List of Favorites:</h2></div>
+        <div data-testid={"favorite-list"} style={{color:currentTheme.text}}id="favoriteNotes"><h2>List of Favorites:</h2></div>
     </ThemeContext.Provider>
   );
 }

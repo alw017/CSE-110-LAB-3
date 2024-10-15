@@ -21,16 +21,16 @@ export function NoteGrid(
     
     const theme = useContext(ThemeContext);
     return (
-        <div className="notes-grid">
+        <div data-testid={"notes-container"} className="notes-grid">
           {inputNotes.map((note) => (
             <div style={{ background: theme.background, color:theme.text}}
             key={note.id}
             className="note-item">
             <div className="notes-header">
                 <div className="favorite-button">
-                    <button style={{color:"grey"}} onClick={(e) => handleNoteFavorites(e, note.id)}>❤</button>
+                    <button data-testid={"test-fav" + note.id} style={{color:"grey"}} onClick={(e) => handleNoteFavorites(e, note.id)}>❤</button>
                 </div>
-                <button style={{color:theme.text}} onClick={(e) => {deleteNote(e, note.id)}}>x</button> 
+                <button style={{color:theme.text}} data-testid={"test-button" + note.id}onClick={(e) => {deleteNote(e, note.id)}}>x</button> 
             </div>
             <h2 suppressContentEditableWarning={true} contentEditable="true" onBlur={(e)=>handleEditField(e, "heading", note.id)}> {note.title} </h2>
             <p suppressContentEditableWarning={true} contentEditable="true" onBlur={(e)=>handleEditField(e, "text", note.id)}> {note.content} </p>
